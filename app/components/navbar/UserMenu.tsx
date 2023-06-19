@@ -5,11 +5,18 @@ import Avatar from '../Avatar';
 import { useCallback, useState } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
+import useLoginModal from '@/app/hooks/useLoginModal';
 
-type Props = {};
+import { User } from '@prisma/client';
+import { signOut } from 'next-auth/react';
 
-const UserMenu: React.FC<Props> = ({}) => {
+type UserMenuProps = {
+  currentUser?: User | null;
+};
+
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState<Boolean>(false);
 
   const toggleOpen = useCallback(() => {
@@ -20,6 +27,11 @@ const UserMenu: React.FC<Props> = ({}) => {
     toggleOpen();
     registerModal.onOpen();
   }, [registerModal, toggleOpen]);
+
+  const handleLogin = useCallback(() => {
+    toggleOpen();
+    loginModal.onOpen();
+  }, [loginModal, toggleOpen]);
 
   return (
     <div className='relative'>
@@ -42,10 +54,22 @@ const UserMenu: React.FC<Props> = ({}) => {
         {isOpen && (
           <div className='absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm'>
             <div className='flex flex-col cursor-pointer'>
-              <>
-                <MenuItem onClick={() => {}} label='Login' />
-                <MenuItem onClick={handleSignup} label='Sign up' />
-              </>
+              {currentUser ? (
+                <>
+                  <MenuItem label='My trips' onClick={() => {}} />
+                  <MenuItem label='My favorites' onClick={() => {}} />
+                  <MenuItem label='My reservations' onClick={() => {}} />
+                  <MenuItem label='My properties' onClick={() => {}} />
+                  <MenuItem label='Airbnb your home' onClick={() => {}} />
+                  <hr />
+                  <MenuItem label='Logout' onClick={signOut} />
+                </>
+              ) : (
+                <>
+                  <MenuItem label='Login' onClick={handleLogin} />
+                  <MenuItem label='Sign up' onClick={handleSignup} />
+                </>
+              )}
             </div>
           </div>
         )}
