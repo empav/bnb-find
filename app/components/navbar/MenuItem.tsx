@@ -9,7 +9,10 @@ type MenuItemProps = {
 
 const MenuItem: React.FC<MenuItemProps> = ({ onClick, label }) => {
   return (
-    <div onClick={onClick} className='px-4 py-3 hover:bg-neutral-300 '>
+    <div
+      onClick={onClick}
+      className='px-4 py-3 hover:bg-rose-500 hover:text-white '
+    >
       {label}
     </div>
   );
