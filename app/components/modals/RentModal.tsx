@@ -3,10 +3,12 @@
 import Modal from '@/app/components/modals/Modal';
 import useRentModal from '@/app/hooks/useRentModal';
 import { useMemo, useState } from 'react';
-import Heading from '../Heading';
+import Heading from '@/app/components/Heading';
 import useCategories from '@/app/hooks/useCategories';
-import CategoryInput from '../inputs/CategoryInput';
+import CategoryInput from '@/app/components/inputs/CategoryInput';
 import { FieldValues, useForm } from 'react-hook-form';
+import CountrySelect from '@/app/components/inputs/CountrySelect';
+import dynamic from 'next/dynamic';
 
 enum STEPS {
   CATEGORY = 0,
@@ -44,6 +46,13 @@ const RentModal = () => {
   });
 
   const category = watch('category');
+  const location = watch('location');
+
+  const Map = useMemo(
+    () => dynamic(() => import('@/app/components/Map'), { ssr: false }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [location]
+  );
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -87,12 +96,28 @@ const RentModal = () => {
     </div>
   );
 
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className='flex flex-col gap-10'>
+        <Heading
+          title='Where is your home located?'
+          subtitle='Help guests find you!'
+        />
+        <CountrySelect
+          value={location}
+          onChange={(value) => setCustomValue('location', value)}
+        />
+        <Map center={location?.latlng} />
+      </div>
+    );
+  }
+
   return (
     <Modal
       isOpen={rentModal.isOpen}
       title='BnB your home'
       onClose={rentModal.onClose}
-      onSubmit={rentModal.onClose}
+      onSubmit={handleNext}
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : handleBack}
