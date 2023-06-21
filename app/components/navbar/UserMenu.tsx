@@ -49,7 +49,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'
             onClick={handleRent}
           >
-            BnB my home
+            Rent my home
           </div>
         )}
         <div
@@ -70,7 +70,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   <MenuItem label='My favorites' onClick={() => {}} />
                   <MenuItem label='My reservations' onClick={() => {}} />
                   <MenuItem label='My properties' onClick={() => {}} />
-                  <MenuItem label='BnB my home' onClick={handleRent} />
+                  <MenuItem label='Rent my home' onClick={handleRent} />
                   <hr />
                   <MenuItem label='Logout' onClick={signOut} />
                 </>
