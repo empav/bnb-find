@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 import useCountries from '@/app/hooks/useCountries';
-import { Listing } from '@prisma/client';
+import { Listing, User } from '@prisma/client';
+import HeartButton from '@/app/components/HeartButton';
 
 interface ListingCardProps {
   data: Listing;
+  currentUser?: User | null;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({ data }) => {
+const ListingCard: React.FC<ListingCardProps> = ({ data, currentUser }) => {
   const { getByValue } = useCountries();
   const location = getByValue(data.locationValue);
 
@@ -36,6 +38,17 @@ const ListingCard: React.FC<ListingCardProps> = ({ data }) => {
             src={data.imageSrc}
             alt='Listing'
           />
+          {currentUser && (
+            <div
+              className='
+            absolute
+            top-3
+            right-3
+          '
+            >
+              <HeartButton listingId={data.id} currentUser={currentUser} />
+            </div>
+          )}
         </div>
         <div className='font-semibold text-lg'>
           {location?.region}, {location?.label}
