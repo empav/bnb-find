@@ -4,6 +4,7 @@ import Image from 'next/image';
 import useCountries from '@/app/hooks/useCountries';
 import { Listing, User } from '@prisma/client';
 import HeartButton from '@/app/components/HeartButton';
+import { useRouter } from 'next/navigation';
 
 interface ListingCardProps {
   data: Listing;
@@ -11,11 +12,15 @@ interface ListingCardProps {
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({ data, currentUser }) => {
+  const router = useRouter();
   const { getByValue } = useCountries();
   const location = getByValue(data.locationValue);
 
   return (
-    <div onClick={() => {}} className='col-span-1 cursor-pointer group'>
+    <div
+      onClick={() => router.push(`/listings/${data.id}`)}
+      className='col-span-1 cursor-pointer group'
+    >
       <div className='flex flex-col gap-2 w-full'>
         <div
           className='
