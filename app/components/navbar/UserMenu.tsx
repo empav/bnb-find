@@ -1,8 +1,9 @@
 'use client';
 
+import { useClickOutside } from '@react-hooks-library/core';
 import { AiOutlineMenu } from 'react-icons/ai';
 import Avatar from '../Avatar';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import MenuItem from './MenuItem';
 import useRegisterModal from '@/app/hooks/useRegisterModal';
 import useLoginModal from '@/app/hooks/useLoginModal';
@@ -22,6 +23,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const rentModal = useRentModal();
   const router = useRouter();
 
+  const dropdownRef = useRef(null);
+
   const [isOpen, setIsOpen] = useState<Boolean>(false);
 
   const toggleOpen = useCallback(() => {
@@ -38,10 +41,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     loginModal.onOpen();
   }, [loginModal, toggleOpen]);
 
-  const handleRent = useCallback(() => {
-    toggleOpen();
-    rentModal.onOpen();
-  }, [rentModal, toggleOpen]);
+  useClickOutside(dropdownRef, () => {
+    setIsOpen(false);
+  });
 
   return (
     <div className='relative'>
@@ -62,7 +64,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <Avatar src={currentUser?.image} />
         </div>
         {isOpen && (
-          <div className='absolute rounded-xl shadow-md w-[50vw] md:w-[20vw] bg-white overflow-hidden right-0 top-12 text-sm'>
+          <div
+            ref={dropdownRef}
+            className='absolute rounded-xl shadow-md w-[50vw] md:w-[20vw] bg-white overflow-hidden right-0 top-12 text-sm'
+          >
             <div className='flex flex-col cursor-pointer'>
               {currentUser ? (
                 <>
