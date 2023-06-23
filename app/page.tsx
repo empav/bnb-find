@@ -1,3 +1,6 @@
+//vercel issue https://github.com/vercel/next.js/issues/49182
+export const dynamic = 'force-dynamic';
+
 import Container from '@/app/components/Container';
 import ListingCard from '@/app/components/listings/ListingCard';
 import EmptyState from '@/app/components/EmptyState';
@@ -9,7 +12,7 @@ export interface IParams {
 }
 
 const Home = async ({ searchParams }: IParams) => {
-  const listings = await getListings();
+  const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 
   if (!listings.length) {
