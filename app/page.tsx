@@ -9,7 +9,7 @@ export interface IParams {
 }
 
 const Home = async ({ searchParams }: IParams) => {
-  const listings = await getListings(searchParams);
+  const listings = await getListings();
   const currentUser = await getCurrentUser();
 
   if (!listings.length) {
