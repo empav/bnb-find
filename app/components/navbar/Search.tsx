@@ -77,7 +77,7 @@ const Search = () => {
           className='
             text-sm 
             font-semibold 
-            px-6
+            px-4
           '
         >
           {locationLabel}
@@ -88,7 +88,7 @@ const Search = () => {
             sm:block 
             text-sm 
             font-semibold 
-            px-6 
+            px-4 
             border-x-[1px] 
             flex-1 
             text-center
@@ -99,7 +99,7 @@ const Search = () => {
         <div
           className='
             text-sm 
-            pl-6 
+            pl-2 
             pr-2 
             text-gray-600 
             flex 
@@ -118,10 +118,10 @@ const Search = () => {
               cursor-pointer
             '
           >
-            <BiSearch size={18} onClick={searchModal.onOpen} />
+            <BiSearch size={16} onClick={searchModal.onOpen} />
           </div>
-          <div className='p-2 cursor-pointer'>
-            <AiOutlineClose onClick={() => router.push('/')} size={18} />
+          <div className='cursor-pointer'>
+            <AiOutlineClose onClick={() => router.push('/')} size={16} />
           </div>
         </div>
       </div>
